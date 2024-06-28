@@ -1,0 +1,87 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-google-sitemap" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+      <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_control }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-google-sitemap" class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="feed_trs_sitemap_status" id="input-status" class="form-control">
+                {% if feed_trs_sitemap_status %}
+                  <option value="1" selected="selected">{{ text_enabled }}</option>
+                  <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                  <option value="1">{{ text_enabled }}</option>
+                  <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-limit">{{ entry_limit }}</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     name="feed_trs_sitemap_limit"
+                     placeholder="50000"
+                     class="form-control"
+                     value="{{ feed_trs_sitemap_limit }}"
+                     id="input-limit" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-duration">{{ entry_duration }}</label>
+            <div class="col-sm-10">
+              <input type="text"
+                     name="feed_trs_sitemap_duration"
+                     placeholder="24"
+                     class="form-control"
+                     value="{{ feed_trs_sitemap_duration }}"
+                     id="input-duration"
+                     onkeyup="$('#data-duration').load('index.php?route=extension/feed/trs_sitemap/estimateDuration&user_token={{ data_user_token }}&duration=' + $(this).val())" />
+                     <p>
+                       <pre id="data-duration">{{ data_duration }}</pre>
+                     </p>
+             </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_crontab_task }}</label>
+            <div class="col-sm-10">
+              <pre>{{ data_crontab_task }}</pre>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_sitemap_url }}</label>
+            <div class="col-sm-10">
+              <pre>{{ data_sitemap_url }}</pre>
+            </div>
+          </div>
+        </form>
+        <div class="text-center">{{ text_copy }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}
